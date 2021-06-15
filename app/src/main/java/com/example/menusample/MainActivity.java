@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
         // メニュータップ時のリスナ設定
         lv.setOnItemClickListener(new ListItemClickListener());
+
+        registerForContextMenu(lv);
     }
 
     private List<Map<String, Object>> createTeisyokuMenu() {
@@ -209,6 +212,23 @@ public class MainActivity extends AppCompatActivity {
         lv.setAdapter(adapter);
 
         return returnVal;
+    }
+
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
+
+        // 親クラスの同名メソッドの呼び出し
+        super.onCreateContextMenu(menu, view, menuInfo);
+
+        // メニューインフレーター取得
+        MenuInflater inflater = getMenuInflater();
+
+        // コンテキストメニュー用xmlファイルをインフレート
+        inflater.inflate(R.menu.menu_context_menu_list, menu);
+
+        // コンテキストメニューのヘッダタイトルを設定
+        menu.setHeaderTitle(R.string.menu_list_context_header);
     }
 
     private class ListItemClickListener implements AdapterView.OnItemClickListener {
